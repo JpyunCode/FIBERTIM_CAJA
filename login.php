@@ -3,7 +3,7 @@
 
 <?php
 session_start();
-include('db_connect.php');
+include 'assets/php/functions/db_connect.php';
 
 ?>
 
@@ -22,7 +22,7 @@ include('db_connect.php');
     #include('footer.php');
     ?>
     <?php
-	if (isset($_SESSION['login_id']))
+	if (isset($_SESSION['login_IdUsuario']))
 		header("location:index.php?page=payments");
 	?>
 
@@ -60,12 +60,12 @@ include('db_connect.php');
 
 						<form id="login-form">
 							<div class="form-group">
-								<label for="username" class="control-label">Correo</label>
-								<input type="text" id="username" name="username" class="form-control">
+								<label for="Correo" class="control-label">Correo</label>
+								<input type="text" id="Correo" name="Correo" class="form-control">
 							</div>
 							<div class="form-group">
-								<label for="password" class="control-label">Contraseña</label>
-								<input type="password" id="password" name="password" class="form-control">
+								<label for="Contraseña" class="control-label">Contraseña</label>
+								<input type="password" id="Contraseña" name="Contraseña" class="form-control">
 							</div>
 							<br>
 							<button class="btn btn-primary">Ingresar</button>
@@ -89,7 +89,7 @@ include('db_connect.php');
 		if ($(this).find('.alert-danger').length > 0)
 			$(this).find('.alert-danger').remove();
 		$.ajax({
-			url: 'ajax.php?action=login',
+			url: 'assets/php/functions/ajax.php?action=login',
 			method: 'POST',
 			data: $(this).serialize(),
 			error: err => {
@@ -101,7 +101,7 @@ include('db_connect.php');
 				if (resp == 1) {
 					location.href = 'index.php?page=payments';
 				} else {
-					$('#login-form').prepend('<div class="alert alert-danger">Username or password is incorrect.</div>')
+					$('#login-form').prepend('<div class="alert alert-danger">Correo o Contraseña incorrecta.</div>')
 					$('#login-form button[type="button"]').removeAttr('disabled').html('Login');
 				}
 			}

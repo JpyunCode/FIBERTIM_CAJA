@@ -1,4 +1,4 @@
-<?php include 'db_connect.php'; ?>
+<?php include 'assets/php/functions/db_connect.php'; ?>
 <div class="container-fluid">
 	<div class="col-lg-12">
 		<div class="row mb-4 mt-4">
@@ -22,46 +22,45 @@
 							<thead>
 								<tr>
 									<th class="text-center">#</th>
-									<th class="">Fecha</th>
-									<th class="">ID No.</th>
-									<th class="">No Curso</th>
-									<th class="">Nombre</th>
-									<th class="">Monto Pagado</th>
+									<th class="">ID Cliente</th>
+									<th class="">Metodo de pago</th>
+									<th class="">Monto pagado</th>
+									<th class="">Numero de operacion</th>
+									<th class="">Fecha de pago</th>
 									<th class="text-center">Acción</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 								$i = 1;
-								$payments = $conn->query("SELECT p.*,s.name as sname, ef.ef_no,s.id_no FROM payments p inner join student_ef_list ef on ef.id = p.ef_id inner join student s on s.id = ef.student_id order by unix_timestamp(p.date_created) desc ");
+								$payments = $conn->query("SELECT * FROM TPagos");
 								if ($payments->num_rows > 0) :
 									while ($row = $payments->fetch_assoc()) :
-										$paid = $conn->query("SELECT sum(amount) as paid FROM payments where ef_id=" . $row['id']);
-										$paid = $paid->num_rows > 0 ? $paid->fetch_array()['paid'] : '';
+										
 								?>
 										<tr>
 											<td class="text-center">
 												<?php echo $i++ ?>
 											</td>
 											<td>
-												<p><?php echo date("M d,Y H:i A", strtotime($row['date_created'])) ?></p>
+												<p><?php echo $row['IdCliente'] ?></p>
 											</td>
 											<td>
-												<p><?php echo $row['id_no'] ?></p>
-											</td>
-											<td>
-												<p><?php echo $row['ef_no'] ?></p>
-											</td>
-											<td>
-												<p><?php echo ucwords($row['sname']) ?></p>
+												<p><?php echo $row['MetodoPago'] ?></p>
 											</td>
 											<td class="text-right">
-												<p><?php echo number_format($row['amount'], 2) ?></p>
+												<p><?php echo number_format($row['MontoPagado'], 2) ?></p>
+											</td>
+											<td>
+												<p><?php echo ucwords($row['NroOperacion']) ?></p>
+											</td>
+											<td>
+												<p><?php echo date("M d,Y H:i A", strtotime($row['FechaPago'])) ?></p>
 											</td>
 											<td class="text-center">
-												<button class="btn btn-primary view_payment" type="button" data-id="<?php echo $row['id'] ?>" data-ef_id="<?php echo $row['ef_id'] ?>"><i class="fa fa-eye"></i></button>
-												<button class="btn btn-info edit_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
-												<button class="btn btn-danger delete_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
+												<button class="btn btn-primary view_payment" type="button" data-IdPago="<?php echo $row['IdPago'] ?>"><i class="fa fa-eye"></i></button>
+												<button class="btn btn-info edit_payment" type="button" data-IdPago="<?php echo $row['IdPago'] ?>"><i class="fa fa-edit"></i></button>
+												<button class="btn btn-danger delete_payment" type="button" data-IdPago="<?php echo $row['IdPago'] ?>"><i class="fa fa-trash"></i></button>
 											</td>
 										</tr>
 									<?php
@@ -121,7 +120,7 @@
 		_conf("¿Deseas eliminar este pago?", "delete_payment", [$(this).attr('data-id')])
 	})
 
-	function delete_payment($id) {
+	function delete_payment($IdPago) {
 		start_load()
 		$.ajax({
 			url: 'ajax.php?action=delete_payment',

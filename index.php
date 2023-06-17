@@ -16,7 +16,7 @@
     <script src="https://use.fontawesome.com/aa65abb934.js"></script>
 
     <?php
-    if (!isset($_SESSION['login_id']))
+    if (!isset($_SESSION['login_IdUsuario']))
         header('location:login.php');
 
     ?>

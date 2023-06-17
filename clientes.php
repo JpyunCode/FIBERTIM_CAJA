@@ -1,4 +1,4 @@
-<?php include('db_connect.php'); ?>
+<?php include 'assets/php/functions/db_connect.php'; ?>
 <style>
 	input[type=checkbox] {
 		/* Double-sized Checkboxes */
@@ -31,10 +31,10 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header">
-						<b>Lista de Estudiantes </b>
+						<b>Lista de Clientes </b>
 						<span class="float:right">
 							<a class="btn btn-primary col-md-1 col-sm-6 float-right" href="javascript:void(0)" id="new_student">
-								<i class="fa fa-plus"></i> Estudiante
+								<i class="fa fa-plus"></i> Cliente
 							</a>
 						</span>
 					</div>
@@ -43,7 +43,7 @@
 							<thead>
 								<tr>
 									<th class="text-center">#</th>
-									<th class="">ID No.</th>
+									<th class="">ID</th>
 									<th class="">Nombre</th>
 									<th class="">Información</th>
 									<th class="text-center">Acción</th>
@@ -52,7 +52,7 @@
 							<tbody>
 								<?php
 								$i = 1;
-								$student = $conn->query("SELECT * FROM student order by name asc ");
+								$student = $conn->query("SELECT * FROM TClientes");
 								while ($row = $student->fetch_assoc()) :
 								?>
 									<tr>
@@ -60,15 +60,15 @@
 											<?php echo $i++ ?>
 										</td>
 										<td>
-											<?php echo $row['id_no'] ?>
+											<?php echo $row['IdCliente'] ?>
 										</td>
 										<td>
-											<?php echo ucwords($row['name']) ?>
+											<?php echo ucwords($row['Nombre']) ?>
 										</td>
 										<td class="">
-											<p>Correo: <?php echo $row['email'] ?></p>
-											<p># Móvil: <?php echo $row['contact'] ?></p>
-											<p>Dirección: <?php echo $row['address'] ?></p>
+											<p><?php echo $row['TipoDocumento'] ?></p>: <?php echo $row['NroDocumento'] ?></p>
+											<p>Telefono: <?php echo $row['Telefono'] ?></p>
+											<p>Dirección: <?php echo $row['Direccion'] ?></p>
 										</td>
 										<td class="text-center">
 											<button class="btn btn-primary edit_student" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
@@ -111,7 +111,7 @@
 
 	})
 	$('.edit_student').click(function() {
-		uni_modal("Gestionar Información de Estudiante", "manage_student.php?id=" + $(this).attr('data-id'), "mid-large")
+		uni_modal("Gestionar Información de Estudiante", "assets/php/students/manage_student.php?id=" + $(this).attr('data-id'), "mid-large")
 
 	})
 	$('.delete_student').click(function() {

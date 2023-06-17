@@ -34,6 +34,6 @@
 
 <script>
   $('#manage_my_account').click(function() {
-    uni_modal("Manage Account", "manage_user.php?id=<?php echo $_SESSION['login_id'] ?>&mtype=own")
+    uni_modal("Manage Account", "manage_user.php?id=<?php echo $_SESSION['login_IdUsuario'] ?>&mtype=own")
   })
 </script>
