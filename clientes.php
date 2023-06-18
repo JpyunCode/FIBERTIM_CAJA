@@ -46,12 +46,17 @@
 									<th class="">ID</th>
 									<th class="">Nombre</th>
 									<th class="">Información</th>
+									<th class="">Detalles</th>
+									<th class="">Estado</th>
 									<th class="text-center">Acción</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 								$i = 1;
+								$typeDocument = array("", "DNI", "Carnet de extranjeria", "Pasaporte", "RUC");
+								$typeConexion = array("", "Fibra Optica", "Inalambrico");
+								$typeStatus = array("", "Activo", "Inactivo", "Suspendio temporalmente");
 								$student = $conn->query("SELECT * FROM TClientes");
 								while ($row = $student->fetch_assoc()) :
 								?>
@@ -66,13 +71,23 @@
 											<?php echo ucwords($row['Nombre']) ?>
 										</td>
 										<td class="">
-											<p><?php echo $row['TipoDocumento'] ?></p>: <?php echo $row['NroDocumento'] ?></p>
+											<p><?php echo $typeDocument[$row['TipoDocumento']] ?>: <?php echo $row['NroDocumento'] ?></p>
 											<p>Telefono: <?php echo $row['Telefono'] ?></p>
 											<p>Dirección: <?php echo $row['Direccion'] ?></p>
+											<p>Correo: <?php echo $row['Email'] ?></p>
+										</td>
+										<td>
+											<p>Tipo de conexion:<?php echo $typeConexion[$row['ConexionTipo']] ?></p>
+											<p>Plan:<?php echo $row['Plan'] ?></p>
+											<p>Pago mensual:<?php echo $row['PagoMensual'] ?></p>
+											<p>Fecha instalacion:<?php echo $row['FechaInstalacion'] ?></p>
+										</td>
+										<td>
+											<?php echo $typeStatus[$row['Estado']] ?>
 										</td>
 										<td class="text-center">
-											<button class="btn btn-primary edit_student" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
-											<button class="btn btn-danger delete_student" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
+											<button class="btn btn-primary edit_student" type="button" data-IdCliente="<?php echo $row['IdCliente'] ?>"><i class="fa fa-edit"></i></button>
+											<button class="btn btn-danger delete_student" type="button" data-IdCliente="<?php echo $row['IdCliente'] ?>"><i class="fa fa-trash"></i></button>
 										</td>
 									</tr>
 								<?php endwhile; ?>
@@ -107,24 +122,24 @@
 		$('table').dataTable()
 	})
 	$('#new_student').click(function() {
-		uni_modal("Nuevo Estudiante ", "assets/php/students/manage_student.php", "mid-large")
+		uni_modal("Nuevo Cliente ", "assets/php/cliente/manage_student.php", "mid-large")
 
 	})
 	$('.edit_student').click(function() {
-		uni_modal("Gestionar Información de Estudiante", "assets/php/students/manage_student.php?id=" + $(this).attr('data-id'), "mid-large")
+		uni_modal("Gestionar Información del Cliente", "assets/php/cliente/manage_student.php?IdCliente=" + $(this).attr('data-IdCliente'), "mid-large")
 
 	})
 	$('.delete_student').click(function() {
-		_conf("Deseas eliminar este estudiante? ", "delete_student", [$(this).attr('data-id')])
+		_conf("Deseas eliminar este cliente? ", "delete_cliente", [$(this).attr('data-IdCliente')])
 	})
 
-	function delete_student($id) {
+	function delete_cliente($IdCliente) {
 		start_load()
 		$.ajax({
-			url: 'ajax.php?action=delete_student',
+			url: 'assets/php/functions/ajax.php?action=delete_cliente',
 			method: 'POST',
 			data: {
-				id: $id
+				IdCliente: $IdCliente
 			},
 			success: function(resp) {
 				if (resp == 1) {

@@ -33,6 +33,7 @@
 							<tbody>
 								<?php
 								$i = 1;
+								$typePago = array("", "Efectivo", "Transferencia", "Yape");
 								$payments = $conn->query("SELECT * FROM TPagos");
 								if ($payments->num_rows > 0) :
 									while ($row = $payments->fetch_assoc()) :
@@ -46,7 +47,7 @@
 												<p><?php echo $row['IdCliente'] ?></p>
 											</td>
 											<td>
-												<p><?php echo $row['MetodoPago'] ?></p>
+												<p><?php echo $typePago[$row['MetodoPago']] ?></p>
 											</td>
 											<td class="text-right">
 												<p><?php echo number_format($row['MontoPagado'], 2) ?></p>

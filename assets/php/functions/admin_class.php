@@ -59,23 +59,23 @@ Class Action {
 
 	function save_user(){
 		extract($_POST);
-		$data = " name = '$name' ";
-		$data .= ", username = '$username' ";
-		if(!empty($password))
-		$data .= ", password = '".md5($password)."' ";
-		$data .= ", type = '$type' ";
+		$data = " Nombre = '$Nombre' ";
+		$data .= ", Correo = '$Correo' ";
+		if(!empty($Contraseña))
+		$data .= ", Contraseña = '".md5($Contraseña)."' ";
+		$data .= ", TipoUsuario = '$TipoUsuario' ";
 		#if($type == 1)
 		#	$establishment_id = 0;
 		#$data .= ", establishment_id = '$establishment_id' ";
-		$chk = $this->db->query("Select * from users where username = '$username' and id !='$id' ")->num_rows;
+		$chk = $this->db->query("Select * from TUsuarios where Correo = '$Correo' and IdUsuario !='$IdUsuario' ")->num_rows;
 		if($chk > 0){
 			return 2;
 			exit;
 		}
-		if(empty($id)){
-			$save = $this->db->query("INSERT INTO users set ".$data);
+		if(empty($IdUsuario)){
+			$save = $this->db->query("INSERT INTO TUsuarios set ".$data);
 		}else{
-			$save = $this->db->query("UPDATE users set ".$data." where id = ".$id);
+			$save = $this->db->query("UPDATE TUsuarios set ".$data." where IdUsuario = ".$IdUsuario);
 		}
 		if($save){
 			return 1;
@@ -246,11 +246,11 @@ Class Action {
 			return 1;
 		}
 	}
-	function save_student(){
+	function save_cliente(){
 		extract($_POST);
 		$data = "";
 		foreach($_POST as $k => $v){
-			if(!in_array($k, array('id')) && !is_numeric($k)){
+			if(!in_array($k, array('IdCliente')) && !is_numeric($k)){
 				if(empty($data)){
 					$data .= " $k='$v' ";
 				}else{
@@ -258,22 +258,22 @@ Class Action {
 				}
 			}
 		}
-		$check = $this->db->query("SELECT * FROM student where id_no ='$id_no' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
+		$check = $this->db->query("SELECT * FROM TClientes where NroDocumento ='$NroDocumento' ".(!empty($IdCliente) ? " and IdCliente != {$IdCliente} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
 			exit;
 		}
-		if(empty($id)){
-			$save = $this->db->query("INSERT INTO student set $data");
+		if(empty($IdCliente)){
+			$save = $this->db->query("INSERT INTO TClientes set $data");
 		}else{
-			$save = $this->db->query("UPDATE student set $data where id = $id");
+			$save = $this->db->query("UPDATE TClientes set $data where IdCliente = $IdCliente");
 		}
 		if($save)
 			return 1;
 	}
-	function delete_student(){
+	function delete_cliente(){
 		extract($_POST);
-		$delete = $this->db->query("DELETE FROM student where id = ".$id);
+		$delete = $this->db->query("DELETE FROM TClientes where IdCliente = ".$IdCliente);
 		if($delete){
 			return 1;
 		}
