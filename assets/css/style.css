@@ -1822,7 +1822,7 @@ label{
     background-color: #fff;
     background-size: 500px;
     
-    background-image: url("../uploads/loader.gif");
+    background-image: url("../img/loader.gif");
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -1837,4 +1837,9 @@ label{
 }
 .display-6{
   font-size: 20px;
+}
+
+/* Codigo para colocar el footer en la ultima pagina */
+table tfoot {
+  display: table-row-group;
 }

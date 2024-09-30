@@ -32,12 +32,12 @@ if (isset($_GET['IdCliente'])) {
             </div>
             <div class="form-group col-md-6">
                 <label for="" class="control-label">Nro. Documento</label>
-                <input type="text" class="form-control" name="NroDocumento" value="<?php echo isset($NroDocumento) ? $NroDocumento : '' ?>" required>
+                <input type="number" class="form-control" name="NroDocumento" value="<?php echo isset($NroDocumento) ? $NroDocumento : '' ?>" required>
             </div>
         </div>
         <div class="form-group">
             <label for="" class="control-label">Telefono</label>
-            <input type="text" class="form-control" name="Telefono" value="<?php echo isset($Telefono) ? $Telefono : '' ?>" required>
+            <input type="tel" class="form-control" name="Telefono" value="<?php echo isset($Telefono) ? $Telefono : '' ?>" required>
         </div>
         <div class="form-group">
             <label for="" class="control-label">Direccion</label>
@@ -45,7 +45,7 @@ if (isset($_GET['IdCliente'])) {
         </div>
         <div class="form-group">
             <label for="" class="control-label">Correo</label>
-            <input type="email" class="form-control" name="Email" value="<?php echo isset($Email) ? $Email : '' ?>" required>
+            <input type="email" class="form-control" name="Email" value="<?php echo isset($Email) ? $Email : '' ?>">
         </div>
         <div class="form-group">
             <label for="" class="control-label">Tipo de Conexion</label>
@@ -57,11 +57,16 @@ if (isset($_GET['IdCliente'])) {
         </div>
         <div class="form-group">
             <label for="" class="control-label">Tipo de Plan</label>
-            <input type="text" class="form-control" name="Plan" value="<?php echo isset($Plan) ? $Plan : '' ?>" required>
+            <!-- <input type="text" class="form-control" name="Plan" value="<?php echo isset($Plan) ? $Plan : '' ?>" required> -->
+            <select name="Plan" id="Plan" class="custom-select">
+				<option value="1" data-PagoMensual="100" <?php echo isset($Plan) && $Plan == '1' ? 'selected' : '' ?>>50 Mbps</option>
+				<option value="2" data-PagoMensual="150" <?php echo isset($Plan) && $Plan == '2' ? 'selected' : '' ?>>100 Mbps</option>
+                <option value="3" data-PagoMensual="200" <?php echo isset($Plan) && $Plan == '3' ? 'selected' : '' ?>>200 Mbps</option>
+			</select>
         </div>
         <div class="form-group">
             <label for="" class="control-label">Pago mensual</label>
-            <input type="text" class="form-control" name="PagoMensual" value="<?php echo isset($PagoMensual) ? $PagoMensual : '' ?>" required>
+            <input type="text" class="form-control" id="PagoMensual" name="PagoMensual" value="<?php echo isset($PagoMensual) ? $PagoMensual : '100.00' ?>" required>
         </div>
         <div class="form-group">
             <label for="" class="control-label">Estado</label>
@@ -71,6 +76,8 @@ if (isset($_GET['IdCliente'])) {
 				<option value="2" <?php echo isset($Estado) && $Estado == 2 ? 'selected' : '' ?>>Inactivo</option>
 			</select>
         </div>
+        <button class="btn btn-primary" id='submit' onclick="$('#uni_modal form').submit()">Guardar</button>
+        <button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
     </form>
 </div>
 
@@ -100,6 +107,15 @@ if (isset($_GET['IdCliente'])) {
                 } else if (resp == 2) {
                     $('#msg').html('<div class="alert alert-danger mx-2">ID existe actualmente </div>')
                     end_load()
+                } else if (resp == 3) {
+                    $('#msg').html('<div class="alert alert-danger mx-2">Complete los campos requeridos </div>')
+                    end_load()
+                } else if (resp == 4) {
+                    $('#msg').html('<div class="alert alert-danger mx-2">Campo telefono incorrecto </div>')
+                    end_load()
+                } else if (resp == 5) {
+                    $('#msg').html('<div class="alert alert-danger mx-2">Campo nombre incorrecto </div>')
+                    end_load()
                 }
             }
         })
@@ -109,4 +125,13 @@ if (isset($_GET['IdCliente'])) {
         placeholder: "Porfavor selecciona aquí",
         width: '100%'
     })
+
+    $('#Plan').change(function() {
+		var amount = $('#Plan option[value="' + $(this).val() + '"]').attr('data-PagoMensual')
+		$('#PagoMensual').val(parseFloat(amount).toLocaleString('en-US', {
+			style: 'decimal',
+			maximumFractionDigits: 2,
+			minimumFractionDigits: 2
+		}))
+	})
 </script>

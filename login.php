@@ -13,11 +13,8 @@ include 'assets/php/functions/db_connect.php';
     <title>Gestion de pagos</title>
 	<link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
     <link href="assets/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 	<?php
     #include('footer.php');
     ?>
@@ -41,8 +38,30 @@ include 'assets/php/functions/db_connect.php';
 		height: calc(100%);
 		display: flex;
 		align-items: center;
-		background-image: url(assets/uploads/background.jpg);
+		/*background-image: url(assets/uploads/background.jpg);*/
 		background-size: cover;
+	}
+	.caja_popup 
+	{
+		display: none;
+		position: absolute;
+		padding:0;
+		background-color:rgba(0, 0, 0, 0.5);
+		width:100%;
+		height:100%;
+	}
+	.contenedor_popup 
+	{
+		border-radius: 5px;
+		top: 10%;
+		left: 50%;
+		position: absolute;
+		transform: translate(-50%,-50%);
+		width:400px;
+		border-radius: 5px;
+		transition: all 0.2s;
+		
+		
 	}
 </style>
 
@@ -67,6 +86,11 @@ include 'assets/php/functions/db_connect.php';
 								<label for="Contraseña" class="control-label">Contraseña</label>
 								<input type="password" id="Contraseña" name="Contraseña" class="form-control">
 							</div>
+							<div class="col-md-10 ml-auto">
+							<!-- <a href="#" id="olvidar" title="Recuperar Clave">Recuperar Clave</a> -->
+								<!-- <a class="" id="recuperar" onclick="abrirform()">Recuperar contraseña</a> -->
+								<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Launch demo modal</button> -->
+							</div>
 							<br>
 							<button class="btn btn-primary">Ingresar</button>
 							<br>
@@ -78,7 +102,6 @@ include 'assets/php/functions/db_connect.php';
 	</main>
 
 	<a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-
 
 </body>
 
@@ -107,7 +130,12 @@ include 'assets/php/functions/db_connect.php';
 			}
 		})
 	})
+	
 </script>
-  
-<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+
+ 
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>

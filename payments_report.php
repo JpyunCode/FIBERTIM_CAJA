@@ -1,5 +1,5 @@
 <?php
-include 'db_connect.php';
+include 'assets/php/functions/db_connect.php';
 $month = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
 ?>
 <div class="container-fluid">
@@ -18,44 +18,42 @@ $month = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="">Fecha</th>
-                                <th class="">ID</th>
-                                <th class="">No Curso</th>
-                                <th class="">Nombre</th>
-                                <th class="">Monto Pagado</th>
-                                <th>Observaciones</th>
+								<th class="">ID Cliente</th>
+								<th class="">Metodo de pago</th>
+								<th class="">Monto pagado</th>
+								<th class="">Numero de operacion</th>
+								<th class="">Fecha de pago</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             $i = 1;
                             $total = 0;
-                            $payments = $conn->query("SELECT p.*,s.name as sname, ef.ef_no,s.id_no FROM payments p inner join student_ef_list ef on ef.id = p.ef_id inner join student s on s.id = ef.student_id where date_format(p.date_created,'%Y-%m') = '$month' order by unix_timestamp(p.date_created) asc ");
+                            $typePago = array("", "Efectivo", "Transferencia", "Yape");
+                            $payments = $conn->query("SELECT * FROM TPagos as tp inner join TClientes as tc on tp.IdCliente=tc.IdCliente where date_format(FechaPago,'%Y-%m') = '$month';");
                             if ($payments->num_rows > 0) :
                                 while ($row = $payments->fetch_array()) :
-                                    $total += $row['amount'];
+                                    $total += $row['MontoPagado'];
                             ?>
                                     <tr>
-                                        <td class="text-center"><?php echo $i++ ?></td>
-                                        <td>
-                                            <p> <?php echo date("M d,Y H:i A", strtotime($row['id_no'])) ?></p>
-                                        </td>
-                                        <td>
-                                            <p> <?php echo $row['id_no'] ?></p>
-                                        </td>
-                                        <td>
-                                            <p> <?php echo $row['ef_no'] ?></p>
-                                        </td>
-                                        <td>
-                                            <p> <?php echo ucwords($row['sname']) ?></p>
-                                        </td>
-                                        <td class="text-right">
-                                            <p><?php echo number_format($row['amount'], 2) ?></p>
-                                        </td>
-
-                                        <td class="text-right">
-                                            <p><?php echo $row['remarks'] ?></p>
-                                        </td>
+                                        <td class="text-center">
+											<?php echo $i++ ?>
+										</td>
+										<td>
+											<p><?php echo $row['Nombre'] ?></p>
+										</td>
+										<td>
+											<p><?php echo $typePago[$row['MetodoPago']] ?></p>
+										</td>
+										<td class="text-right">
+											<p><?php echo number_format($row['MontoPagado'], 2) ?></p>
+										</td>
+										<td>
+											<p><?php echo ucwords($row['NroOperacion']) ?></p>
+										</td>
+										<td>
+											<p><?php echo date("M d,Y H:i A", strtotime($row['FechaPago'])) ?></p>
+										</td>
                                     </tr>
                                 <?php
                                 endwhile;
@@ -71,8 +69,11 @@ $month = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
 
                         <tfoot>
                             <tr>
-                                <th colspan="5" class="text-right">Total</th>
-                                <th class="text-right"><?php echo number_format($total, 2) ?></th>
+                                <th></th>
+                                <th></th>
+                                <th class="text-right">Total</th>
+                                <th class="text-right"><p><?php echo number_format($total, 2) ?></p></th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </tfoot>
@@ -115,6 +116,21 @@ $month = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
 </noscript>
 
 <script>
+    $(document).ready( function () {
+        $('#report-list').DataTable({
+            paging: false,
+            searching: false,
+            scrollY: 400,
+            layout: {
+                topStart: {
+                    buttons: ['excel','pdf',{extend: 'print', footer: true}]
+                }
+            },
+            language: {
+				url: '//cdn.datatables.net/plug-ins/2.1.7/i18n/es-MX.json',
+			}
+        });
+    } );
     $('#month').change(function() {
         location.replace('index.php?page=payments_report&month=' + $(this).val())
     })

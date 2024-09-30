@@ -33,7 +33,7 @@ if (isset($_GET['IdUsuario'])) {
 		<?php else : ?>
 			<?php if (!isset($_GET['mtype'])) : ?>
 				<div class="form-group">
-					<label for="TipoUsuario">User Type</label>
+					<label for="TipoUsuario">Tipo de Usuario</label>
 					<select name="TipoUsuario" id="TipoUsuario" class="custom-select">
 						<option value="2" <?php echo isset($meta['TipoUsuario']) && $meta['TipoUsuario'] == 2 ? 'selected' : '' ?>>Cajero</option>
 						<option value="1" <?php echo isset($meta['TipoUsuario']) && $meta['TipoUsuario'] == 1 ? 'selected' : '' ?>>Administrador</option>
@@ -42,7 +42,8 @@ if (isset($_GET['IdUsuario'])) {
 			<?php endif; ?>
 		<?php endif; ?>
 
-
+		<button class="btn btn-primary" id='submit' onclick="$('#uni_modal form').submit()">Guardar</button>
+        <button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 	</form>
 </div>
 

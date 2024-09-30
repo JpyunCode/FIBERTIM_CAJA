@@ -100,13 +100,13 @@
 		_conf("¿Deseas eliminar a esta usuario?", "delete_user", [$(this).attr('data-IdUsuario')])
 	})
 
-	function delete_user($id) {
+	function delete_user($IdUsuario) {
 		start_load()
 		$.ajax({
 			url: 'assets/php/functions/ajax.php?action=delete_user',
 			method: 'POST',
 			data: {
-				id: $id
+				IdUsuario: $IdUsuario
 			},
 			success: function(resp) {
 				if (resp == 1) {

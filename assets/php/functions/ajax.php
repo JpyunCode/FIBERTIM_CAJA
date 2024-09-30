@@ -33,31 +33,7 @@ if($action == 'delete_user'){
 	if($save)
 		echo $save;
 }
-if($action == 'signup'){
-	$save = $crud->signup();
-	if($save)
-		echo $save;
-}
-if($action == 'update_account'){
-	$save = $crud->update_account();
-	if($save)
-		echo $save;
-}
-if($action == "save_settings"){
-	$save = $crud->save_settings();
-	if($save)
-		echo $save;
-}
-if($action == "save_course"){
-	$save = $crud->save_course();
-	if($save)
-		echo $save;
-}
-if($action == "delete_course"){
-	$delete = $crud->delete_course();
-	if($delete)
-		echo $delete;
-}
+
 if($action == "save_cliente"){
 	$save = $crud->save_cliente();
 	if($save)
@@ -68,16 +44,7 @@ if($action == "delete_cliente"){
 	if($delete)
 		echo $delete;
 }
-if($action == "save_fees"){
-	$save = $crud->save_fees();
-	if($save)
-		echo $save;
-}
-if($action == "delete_fees"){
-	$delete = $crud->delete_fees();
-	if($delete)
-		echo $delete;
-}
+
 if($action == "save_payment"){
 	$save = $crud->save_payment();
 	if($save)

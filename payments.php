@@ -34,7 +34,7 @@
 								<?php
 								$i = 1;
 								$typePago = array("", "Efectivo", "Transferencia", "Yape");
-								$payments = $conn->query("SELECT * FROM TPagos");
+								$payments = $conn->query("SELECT * FROM TPagos as tp inner join TClientes as tc on tp.IdCliente=tc.IdCliente order by FechaPago desc;");
 								if ($payments->num_rows > 0) :
 									while ($row = $payments->fetch_assoc()) :
 										
@@ -44,7 +44,7 @@
 												<?php echo $i++ ?>
 											</td>
 											<td>
-												<p><?php echo $row['IdCliente'] ?></p>
+												<p><?php echo $row['Nombre'] ?></p>
 											</td>
 											<td>
 												<p><?php echo $typePago[$row['MetodoPago']] ?></p>
@@ -59,7 +59,7 @@
 												<p><?php echo date("M d,Y H:i A", strtotime($row['FechaPago'])) ?></p>
 											</td>
 											<td class="text-center">
-												<button class="btn btn-primary view_payment" type="button" data-IdPago="<?php echo $row['IdPago'] ?>"><i class="fa fa-eye"></i></button>
+												<!-- <button class="btn btn-primary view_payment" type="button" data-IdPago="<?php echo $row['IdPago'] ?>"><i class="fa fa-eye"></i></button> -->
 												<button class="btn btn-info edit_payment" type="button" data-IdPago="<?php echo $row['IdPago'] ?>"><i class="fa fa-edit"></i></button>
 												<button class="btn btn-danger delete_payment" type="button" data-IdPago="<?php echo $row['IdPago'] ?>"><i class="fa fa-trash"></i></button>
 											</td>
@@ -101,11 +101,16 @@
 
 <script>
 	$(document).ready(function() {
-		$('table').dataTable()
+		$('table').dataTable({
+			scrollY: 400,
+			language: {
+				url: '//cdn.datatables.net/plug-ins/2.1.7/i18n/es-MX.json',
+			}
+		})
 	})
 
 	$('#new_payment').click(function() {
-		uni_modal("Nuevo Pago ", "manage_payment.php", "mid-large")
+		uni_modal("Nuevo Pago ", "assets/php/pagos/manage_payment.php", "mid-large")
 
 	})
 
@@ -114,20 +119,20 @@
 
 	})
 	$('.edit_payment').click(function() {
-		uni_modal("Gestionar Pago", "manage_payment.php?id=" + $(this).attr('data-id'), "mid-large")
+		uni_modal("Gestionar Pago", "assets/php/pagos/manage_payment.php?IdPago=" + $(this).attr('data-IdPago'), "mid-large")
 
 	})
 	$('.delete_payment').click(function() {
-		_conf("¿Deseas eliminar este pago?", "delete_payment", [$(this).attr('data-id')])
+		_conf("¿Deseas eliminar este pago?", "delete_payment", [$(this).attr('data-IdPago')])
 	})
 
 	function delete_payment($IdPago) {
 		start_load()
 		$.ajax({
-			url: 'ajax.php?action=delete_payment',
+			url: 'assets/php/functions/ajax.php?action=delete_payment',
 			method: 'POST',
 			data: {
-				id: $id
+				IdPago: $IdPago
 			},
 			success: function(resp) {
 				if (resp == 1) {
